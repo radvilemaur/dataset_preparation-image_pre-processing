@@ -1,3 +1,4 @@
+#renaming files in the current direcotory
 
 import os
 
@@ -7,3 +8,5 @@ i=0
 for filename in dirs:
     os.rename(filename, str(i)+'.png')
     i=i+1
+    
+
