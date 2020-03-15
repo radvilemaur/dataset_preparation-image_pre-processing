@@ -5,23 +5,18 @@ import numpy as np
 import nibabel as nib
 import imageio
 import os
-
-path = "/mnt/c/Users/Radvile/Desktop/segmentations" #path to file folder
-dirs = os.listdir(path)
-images = [] #creating an empty list for images
-for filename in dirs:
-    if filename.endswith(".nii"):
-        images.append(filename) #adding each image to the list
+from natsort import natsorted
 
 
-n=0
-for i in images:
-    name=images[n] 
-    img=nib.load(i)
-    im1=img.get_fdata()
-    n=n+1
-    print(im1.shape)
-    imageio.imwrite(str(name)+'.png', im1[:,:,0] #saving the segmentation files as png images
+path = "/mnt/c/Users/Radvile/Desktop/PREPROCESSING/segm/segm_prediction" #creating an empty list for images given a pathway to a folder
+i=0
+for filename in natsorted(os.listdir(path)): #Images are sorted naturally (from 0 to ...) to retain the files in order to be consistent with the segmentations
+ img=nib.load(filename)
+ im1=img.get_fdata()
+ image=np.rot90(np.rot90(np.rot90(im1[:,:])))
+ imageio.imwrite('/mnt/c/Users/Radvile/Desktop/PREPROCESSING/segm/segm_prediction/%d.png'%i, image[:,:]) #can be saved to the same folder or a different one by changing the path
+ i = i + 1
+ #saving the segmentation files as png images
     
  
 #code for flipping the .png files (getting a mirror image)
